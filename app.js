@@ -38,7 +38,7 @@ app.use(helmet());
 app.use(xss());
 app.use(
   cors({
-    origin: [process.env.FRONTEND_URI],
+    origin: '*',
   })
 );
 cloudinary.config({
