@@ -34,7 +34,7 @@ const UserSchema = mongoose.Schema({
 UserSchema.pre("save", async function () {
   if (!this.qrcode) {
     const qrcode = await QRCode.toDataURL(
-      `${process.env.FRONTEND_URI}api/v1/user/${this.id}`
+      `${process.env.FRONTEND_URI}/api/v1/user/${this.id}`
     );
     const result = await cloudinary.v2.uploader.upload(qrcode);
     this.qrcode = result.secure_url;
