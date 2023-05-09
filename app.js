@@ -38,11 +38,12 @@ app.use(helmet());
 app.use(xss());
 app.use(
   cors({
-    origin: "*",
-    methods: ["GET", "POST", "PATCH", "DELETE"],
+    origin: "http://127.0.0.1:5173",
     credentials: true,
+    optionsSuccessStatus: 200,
   })
 );
+
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
