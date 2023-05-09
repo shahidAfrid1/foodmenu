@@ -38,7 +38,9 @@ app.use(helmet());
 app.use(xss());
 app.use(
   cors({
-    origin: '*',
+    origin: "*",
+    methods: ["GET", "POST", "PATCH", "DELETE"],
+    credentials: true,
   })
 );
 cloudinary.config({
