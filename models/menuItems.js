@@ -17,17 +17,11 @@ const menuSchema = mongoose.Schema(
       type: String,
       required: [true, "Please provide desciption"],
       minlength: 5,
-      maxlength: 70,
+      maxlength: 250,
     },
     image: {
-      public_id: {
-        type: String,
-        required: true,
-      },
-      url: {
-        type: String,
-        required: true,
-      },
+      type: String,
+      required: true,
     },
     isavailable: {
       type: Boolean,

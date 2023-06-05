@@ -16,12 +16,10 @@ const createMenuItem = async (req, res) => {
   const file = req.file;
   const fileUri = getDataUri(file);
   const myCloud = await cloudinary.v2.uploader.upload(fileUri.content);
+
   const item = await MenuItems.create({
     ...req.body,
-    image: {
-      public_id: myCloud.public_id,
-      url: myCloud.secure_url,
-    },
+    image: myCloud.secure_url,
   });
   res.status(StatusCodes.CREATED).json({ item });
 };
@@ -43,21 +41,24 @@ const getMenuItem = async (req, res) => {
 };
 
 const updateMenuItem = async (req, res) => {
-  const {
-    body: { name, price, description },
-    user: { userId },
-    params: { id: itemId },
-  } = req;
+  const { id } = req.params;
+  let values = {
+    name: req.body.name,
+    price: req.body.price,
+    description: req.body.description,
+    isavailable: req.body.isavailable,
+  };
 
-  if (name === "" || price === "" || description === "") {
-    throw new BadRequestError("Please provide all the details");
+  if (req.file) {
+    const file = req.file;
+    const fileUri = getDataUri(file);
+    const myCloud = await cloudinary.v2.uploader.upload(fileUri.content);
+    values = { ...values, image: myCloud.secure_url };
   }
 
-  const item = await MenuItems.findByIdAndUpdate(
-    { _id: itemId, createdBy: userId },
-    req.body,
-    { new: true, runValidators: true }
-  );
+  const item = await MenuItems.findByIdAndUpdate({ _id: id }, values, {
+    new: true,
+  });
 
   if (!item) {
     throw new NotFoundError(`No item with id ${itemId}`);

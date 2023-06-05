@@ -34,6 +34,7 @@ app.use(
   })
 );
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(helmet());
 app.use(xss());
 app.use(

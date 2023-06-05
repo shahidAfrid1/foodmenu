@@ -14,7 +14,7 @@ router.route("/").post(singleUpload, createMenuItem).get(getAllMenuItems);
 router
   .route("/:id")
   .get(getMenuItem)
-  .patch(updateMenuItem)
+  .patch(singleUpload, updateMenuItem)
   .delete(deleteMenuItem);
 
 module.exports = router;
